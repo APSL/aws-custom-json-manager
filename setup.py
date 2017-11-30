@@ -13,7 +13,7 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 setup(
-    name='aws-custom-json-manager',
+    name='opsworks-json',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -24,11 +24,14 @@ setup(
     long_description="A tool for managing AWS OpsWorks Custom JSON via GIT.",
 
     # The project's main homepage.
-    url='https://github.com/easybiblabs/aws-custom-json-manager',
+    url='https://github.com/APSL/aws-custom-json-manager',
 
     # Author details
-    author='Brian Wiborg',
-    author_email='brian.wiborg@imagineeasy.com',
+    # author='Brian Wiborg',
+    # author_email='brian.wiborg@imagineeasy.com',
+
+    author='Edu Herraiz',
+    author_email='eherraiz@apsl.net',
 
     # Choose your license
     license='BSD 2-Clause',
@@ -103,7 +106,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'aws-custom-json-sync-tool=aws_custom_json_manager.aws_custom_json_sync_tool:main',
+            'opsworks-json=aws_custom_json_manager.aws_custom_json_sync_tool:main',
         ],
     },
 )
