@@ -4,13 +4,15 @@
 Tool for managing AWS OpsWorks custom-JSON stack-settings.
 
 Usage:
-    sync_tool [-y|--yes] pull <filename>
-    sync_tool [-y|--yes] push <filename>
+    sync_tool [-y|--yes] [--profile=<name>] [--region=<name>] pull <filename>
+    sync_tool [-y|--yes] [--profile=<name>] [--region=<name>] push <filename>
 
 Options:
-    --version   - Print the version-number and exit.
-    -h|--help   - Print this help and exit.
-    -y|--yes    - Automatically opt-in to questions.
+    --version           - Print the version-number and exit.
+    --profile=<name>    - Credentials profile to connect.
+    --region=<name>     - AWS OpsWorks region.
+    -h|--help           - Print this help and exit.
+    -y|--yes            - Automatically opt-in to questions.
 
 Arguments:
     <filename>  - Path to the stack-file. All stack-files are JSON files containing the following
@@ -28,11 +30,10 @@ import boto3
 import logging
 from docopt import docopt
 
-__version__ = '0.1.4'
+__version__ = '0.2'
 __author__ = 'Brian Wiborg <brian.wiborg@imagineeasy.com>'
 
 logger = logging.getLogger('sync-tool')
-
 
 def configure_logging():
     """Helper function for logging configuration."""
@@ -103,7 +104,7 @@ def write_stack_file(path, stack_file_json):
     stack_file_handler.close()
 
 
-def get_opsworks_stack_settings_custom_json(stack_id):
+def get_opsworks_stack_settings_custom_json(stack_id, profile, region='eu-west-1'):
     """Pull a custom JSON from the stack-settings of an OpsWorks stack in AWS.
 
     :param stack_id: str    - OpsWorksID of desired stack.
@@ -112,12 +113,13 @@ def get_opsworks_stack_settings_custom_json(stack_id):
 
     logger.info("Use boto3 to get custom JSON from AWS-API...")
 
-    opsworks = boto3.resource('opsworks', 'us-east-1')
+    session = boto3.Session(profile_name=profile)
+    opsworks = session.resource('opsworks', region)
     stack = opsworks.Stack(stack_id)
     return json.loads(stack.custom_json)
 
 
-def set_opsworks_stack_settings_custom_json(stack_id, custom_json_str):
+def set_opsworks_stack_settings_custom_json(stack_id, custom_json_str, profile, region='eu-west-1'):
     """Push a custom JSON to the stack-settings of an OpsWorks stack in AWS.
 
     :param stack_id: str        - OpsWorksID of desired stack.
@@ -130,7 +132,8 @@ def set_opsworks_stack_settings_custom_json(stack_id, custom_json_str):
     if not isinstance(custom_json_str, str):
         raise TypeError("Must be of type str: {}".format(custom_json_str))
 
-    opsworks = boto3.client('opsworks', 'us-east-1')
+    session = boto3.Session(profile_name=profile)
+    opsworks = session.client('opsworks', region)
     opsworks.update_stack(StackId=stack_id, CustomJson=custom_json_str)
 
 
@@ -148,6 +151,11 @@ def main():
     # Parse shell-arguments.
     args = docopt(__doc__, version=__version__)
 
+    profile = args['--profile']
+    region = args['--region']
+    if not region:
+        region = 'eu-west-1'
+
     # Get file contents.
     try:
         stack_json = read_stack_file(args['<filename>'])
@@ -164,7 +172,7 @@ def main():
             logger.info("Aborted.")
 
         else:
-            custom_json = get_opsworks_stack_settings_custom_json(stack_json[u'stack-id'])
+            custom_json = get_opsworks_stack_settings_custom_json(stack_json[u'stack-id'], profile=profile, region=region)
             new_stack_json = {
                 u'stack-id': stack_id,
                 u'custom-json': custom_json,
@@ -180,7 +188,7 @@ def main():
 
         else:
             custom_json_str = json.dumps(stack_json[u'custom-json'], indent=2)
-            set_opsworks_stack_settings_custom_json(stack_id, custom_json_str)
+            set_opsworks_stack_settings_custom_json(stack_id, custom_json_str, profile=profile, region=region)
             logger.info("Done.")
 
 
