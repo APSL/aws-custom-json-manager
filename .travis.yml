@@ -1,3 +1,20 @@
+
+sudo: false
+
+language: python
+
+matrix:
+ include:
+  - python: 2.7
+    env: TOXENV=py27
+  - python: 3.5
+    env: TOXENV=py35
+cache:
+  - pip
+
+install:
+  - pip install .
+
 deploy:
   provider: pypi
   user: apsl
