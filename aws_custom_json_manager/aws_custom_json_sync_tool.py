@@ -4,8 +4,8 @@
 Tool for managing AWS OpsWorks custom-JSON stack-settings.
 
 Usage:
-    sync_tool [-y|--yes] [--profile=<name>] [--region=<name>] pull <filename>
-    sync_tool [-y|--yes] [--profile=<name>] [--region=<name>] push <filename>
+    opsworks-json [-y|--yes] [--profile=<name>] [--region=<name>] pull <filename>
+    opsworks-json [-y|--yes] [--profile=<name>] [--region=<name>] push <filename>
 
 Options:
     --version           - Print the version-number and exit.
@@ -30,7 +30,7 @@ import boto3
 import logging
 from docopt import docopt
 
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 __author__ = 'Brian Wiborg <brian.wiborg@imagineeasy.com>'
 
 logger = logging.getLogger('sync-tool')
