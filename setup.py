@@ -30,8 +30,8 @@ setup(
     # author='Brian Wiborg',
     # author_email='brian.wiborg@imagineeasy.com',
 
-    author='Edu Herraiz',
-    author_email='eherraiz@apsl.net',
+    author='APSL', #Mantainer
+    author_email='engineering@apsl.net',
 
     # Choose your license
     license='BSD 2-Clause',

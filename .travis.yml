@@ -3,5 +3,7 @@ deploy:
   user: apsl
   password:
     secure: yk0c1v0UmDpbaIxwH37HBejQDCJJc2y03MgqTs7D+RQAy8QgXS1CXUxeuapd76bOM3ngyFPF8a9OR8Pz/QeXMYkjd6gJiGzhmf7Yowbeuou+kUDBFYqhkzDrICzwJOqX0GP4dP1L+g3jGCeftiJj0YuP34iqlBXYFnJ1LwHkseT07VJL4d0KMoERTZJBdBb8gnEpc2440N1WhTEhNRCPdM1FvLtZy0ndeqjfeRdTFM56PCOp7PaOeG8QLAxebwhKUO9fA4tQUjb9E9FXm+m4bVl8zX+6NsvZEuNJA263V4zCnE9AU0hhOs9B3DsmjJNg4HDoBBYXSQYSBXcVjguCXgPltbZxvAGhgrroWHBA72mDhfBHmMxjdeDHO3Fz6eVVC2aDMqXq5WBejhvWGp814h/3KU5P1/V1nUancEKEdtRHjw1RU1AUYaXulCdVv+FX68nFeJQZaRM4X93hH8ng/p9dEehVMTiC9p70DWsU0r+9lbqfgs9FYzPeLTfXJCh3yZ0qLVuhOggN2hVOtQQQKN+3q5fgCchCKovKEUJ5F4KZLXh+jTsc/NYINgZvTEoPNn+Ri09o+3NcsmlCP42SLYnnK/VSvxR7LHyl95+x/nHH/1G1aMTZAluYnyBo9OUMw1Be6ufuoa3fA/nHuT51qhEtl0J3MoyA5TlkA9bJoLQ=
+  distributions: sdist bdist_wheel
   on:
     tags: true
+    python: 3.5
